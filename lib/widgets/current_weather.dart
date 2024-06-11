@@ -1,11 +1,19 @@
+import 'package:app_clima/models/weather_forecast_daily.dart';
 import 'package:app_clima/widgets/extra_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:app_clima/utilities/forecast_util.dart';
 
 class CurrentWeather extends StatelessWidget {
-  const CurrentWeather({super.key});
+  final AsyncSnapshot<WeatherForecast> snapshot;
+
+  const CurrentWeather({super.key, required this.snapshot});
 
   @override
   Widget build(BuildContext context) {
+    var data = snapshot.data;
+    var forecastList = data!.list;
+    var temp = forecastList![0].temp!.temp!.toStringAsFixed(0);
+    var formattedDate = DateTime.fromMillisecondsSinceEpoch(forecastList[0].dt! * 1000);
     return Container(
       height: MediaQuery.of(context).size.height - 230,
       margin: const EdgeInsets.all(2),
@@ -19,7 +27,7 @@ class CurrentWeather extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Itapira',
+            data.city!.name!,
             style: const TextStyle(
                 height: 0.1, fontWeight: FontWeight.bold, fontSize: 25),
           ),
@@ -28,7 +36,9 @@ class CurrentWeather extends StatelessWidget {
             child: Stack(
               children: [
                 Image(
-                  image: AssetImage('assets/sunny.png'),
+                  image: AssetImage(
+                    Util.findIcon('${forecastList[0].weather![0].main}', true)
+                  ),
                   fit: BoxFit.fill,
                 ),
                 Positioned(
@@ -39,18 +49,18 @@ class CurrentWeather extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            '26 °C',
+                            '$temp °C',
                             style: const TextStyle(
                                 height: 0.1,
                                 fontSize: 80,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            'Sol',
+                            '${forecastList[0].weather![0].description}',
                             style: const TextStyle(fontSize: 25),
                           ),
                           Text(
-                            'Segunda-feira 2024',
+                            Util.getFormattedDate(formattedDate),
                             style: const TextStyle(fontSize: 18),
                           )
                         ],
@@ -65,7 +75,7 @@ class CurrentWeather extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          ExtraWeather(),
+          ExtraWeather(snapshot: snapshot,),
         ],
       ),
     );

@@ -87,12 +87,27 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: [
-          FutureBuilder(
+          FutureBuilder<WeatherForecast>(
               future: weatherObj,
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return const Column(
-                    children: [CurrentWeather(), ButtomListView()],
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      CurrentWeather(snapshot: snapshot),
+                      ButtomListView(snapshot: snapshot),
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  return const Center(
+                    child: Text(
+                      'Erro ao carregar dados\nPor favor, tente novamente',
+                      style: TextStyle(fontSize: 25, color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
                   );
                 } else {
                   return const Center(

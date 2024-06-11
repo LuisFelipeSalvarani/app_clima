@@ -10,7 +10,7 @@ class Location {
     try {
       Position position = await Geolocator.getCurrentPosition(
               desiredAccuracy: LocationAccuracy.best)
-          .timeout(const Duration(seconds: 15));
+          .timeout(const Duration(seconds: 40));
 
       latitude = position.latitude;
       longitude = position.longitude;

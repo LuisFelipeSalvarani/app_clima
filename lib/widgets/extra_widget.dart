@@ -1,10 +1,19 @@
-// import 'package:app_clima/models/weather_forecast_daily.dart';
+import 'package:app_clima/models/weather_forecast_daily.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ExtraWeather extends StatelessWidget {
+  final AsyncSnapshot<WeatherForecast> snapshot;
+
+  const ExtraWeather({super.key, required this.snapshot});
+
   @override
   Widget build(BuildContext context) {
+    var forecastList = snapshot.data!.list;
+    var humidity = forecastList![0].temp!.humidity;
+    var wind = forecastList[0].wind!.speed;
+    var rain = forecastList[0].clouds!.clouds;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -17,7 +26,8 @@ class ExtraWeather extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Text("50 Km/h",
+            Text(
+                wind.toString() + " Km/h",
                 style:
                     const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
             const SizedBox(
@@ -39,7 +49,7 @@ class ExtraWeather extends StatelessWidget {
               height: 10,
             ),
             Text(
-              '50 %',
+              humidity.toString() + ' %',
               style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
             ),
             const SizedBox(
@@ -61,7 +71,7 @@ class ExtraWeather extends StatelessWidget {
               height: 10,
             ),
             Text(
-              '10 %',
+              rain.toString() + ' %',
               style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
             ),
             const SizedBox(

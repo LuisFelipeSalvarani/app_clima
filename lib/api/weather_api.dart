@@ -19,6 +19,7 @@ class WeatherApi {
         'appid': Constants.WEATHER_APP_ID,
         'units': 'metric',
         'q': cityName,
+        'lang': 'pt_br'
       };
 
       parameters = queryParameters;
@@ -27,7 +28,8 @@ class WeatherApi {
         'appid': Constants.WEATHER_APP_ID,
         'units': 'metric',
         'lat': location.latitude.toString(),
-        'lon': location.longitude.toString()
+        'lon': location.longitude.toString(),
+        'lang': 'pt_br'
       };
 
       parameters = queryParameters;

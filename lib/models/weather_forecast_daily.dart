@@ -1,74 +1,33 @@
-import 'package:app_clima/models/coord.dart';
-import 'package:app_clima/models/temp.dart';
-import 'package:app_clima/models/weather.dart';
-import 'package:app_clima/models/wind.dart';
+import 'package:app_clima/models/city.dart';
+import 'package:app_clima/models/weather_list.dart';
 
 class WeatherForecast {
-  Coord? coord;
-  List<Weather>? weather;
-  Temp? temp;
-  int? visibility;
-  Wind? wind;
-  int? clounds;
-  int? dt;
-  int? timezone;
-  int? id;
-  String? name;
-  int? cod;
+  List<WeatherList>? list;
+  City? city;
 
-  WeatherForecast(
-      {this.coord,
-      this.weather,
-      this.temp,
-      this.visibility,
-      this.wind,
-      this.clounds,
-      this.dt,
-      this.timezone,
-      this.id,
-      this.name,
-      this.cod});
+  WeatherForecast({
+    this.list,
+    this.city
+  });
 
   WeatherForecast.fromJson(Map<String, dynamic> json) {
-    coord = json['coord'] != null ? Coord.fromJson(json['coord']) : null;
-    if (json['weather'] != null) {
-      weather = <Weather>[];
-      json['weather'].forEach((v) {
-        weather!.add(Weather.fromJson(v));
+    if (json['list'] != null) {
+      list = <WeatherList>[];
+      json['list'].forEach((v) {
+        list!.add(WeatherList.fromJson(v));
       });
     }
-    temp = json['main'] != null ? Temp.fromJson(json['main']) : null;
-    visibility = json['visibility'];
-    wind = json['main'] != null ? Wind.fromJson(json['main']) : null;
-    clounds = json['clounds'];
-    dt = json['dt'];
-    timezone = json['timezone'];
-    id = json['id'];
-    name = json['name'];
-    cod = json['cod'];
+    city = json['city'] != null ? City.fromJson(json['city']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (coord != null) {
-      data['cood'] = coord!.toJson();
+    if (list != null) {
+      data['list'] = list!.map((v) => v.toJson()).toList();
     }
-    if (weather != null) {
-      data['weather'] = weather!.map((v) => v.toJson()).toList();
+    if (city != null) {
+      data['city'] = city!.toJson();
     }
-    if (temp != null) {
-      data['temp'] = temp!.toJson();
-    }
-    data['visibility'] = visibility;
-    if (wind != null) {
-      data['temp'] = wind!.toJson();
-    }
-    data['clounds'] = clounds;
-    data['dt'] = dt;
-    data['timezone'] = timezone;
-    data['id'] = id;
-    data['name'] = name;
-    data['cod'] = cod;
     return data;
   }
 }

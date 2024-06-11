@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-
-// import 'package:app_clima/models/weather_forecast_daily.dart';
-// import 'package:app_clima/utilities/forecast_util.dart';
+import 'package:app_clima/utilities/forecast_util.dart';
+import 'package:app_clima/models/weather_forecast_daily.dart';
 
 class ButtomListView extends StatelessWidget {
-  const ButtomListView({super.key});
+  final AsyncSnapshot<WeatherForecast> snapshot;
+  const ButtomListView({super.key, required this.snapshot});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class ButtomListView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            'Previsão da dos ultimos 7 dias'.toUpperCase(),
+            'Previsão do tempo para 7 dias'.toUpperCase(),
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -38,14 +38,13 @@ class ButtomListView extends StatelessWidget {
                     color: const Color(0xff00A1FF).withOpacity(0.5),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  // child: forecastCard(snapshot, index),
+                  child: forecastCard(snapshot, index),
                 );
               },
               separatorBuilder: (context, index) => const SizedBox(
                 width: 8,
               ),
-              itemCount: 2,
-              // itemCount: snapshot.data!.list!.length,
+              itemCount: snapshot.data!.list!.length,
             ),
           )
         ],
@@ -54,25 +53,35 @@ class ButtomListView extends StatelessWidget {
   }
 }
 
-Widget forecastCard() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      Text(
-        '25 °C',
-        style: const TextStyle(color: Colors.white, fontSize: 20),
-      ),
-      Image(
-        image: AssetImage(
-          'assets/thunder.png',
+Widget forecastCard(AsyncSnapshot snapshot, int index) {
+  var forecastList = snapshot.data.list;
+  var dayOfWeek = '';
+  DateTime date = DateTime.fromMillisecondsSinceEpoch(forecastList[index].dt * 1000);
+  var fullDate = Util.getFormattedDate(date);
+  dayOfWeek = fullDate.split(',')[0];
+  var tempMin = forecastList.temp.temp_min.toStringAsFixed(0);
+  if (snapshot.data != null) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          '$tempMin °C',
+          style: const TextStyle(color: Colors.white, fontSize: 20),
         ),
-        width: 55,
-        height: 55,
-      ),
-      Text(
-        'Segunda-feira',
-        style: const TextStyle(color: Colors.white, fontSize: 20),
-      )
-    ],
-  );
+        Image(
+          image: AssetImage(
+            Util.findIcon("${forecastList[index].weather![0].main}", false),
+          ),
+          width: 55,
+          height: 55,
+        ),
+        Text(
+          dayOfWeek,
+          style: const TextStyle(color: Colors.white, fontSize: 20),
+        )
+      ],
+    );
+  } else {
+    return Container();
+  }
 }
