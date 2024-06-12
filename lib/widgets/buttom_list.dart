@@ -4,6 +4,7 @@ import 'package:app_clima/models/weather_forecast_daily.dart';
 
 class ButtomListView extends StatelessWidget {
   final AsyncSnapshot<WeatherForecast> snapshot;
+
   const ButtomListView({super.key, required this.snapshot});
 
   @override
@@ -14,7 +15,7 @@ class ButtomListView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            'Previsão do tempo para 7 dias'.toUpperCase(),
+            'Previsão do tempo para 5 dias'.toUpperCase(),
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -53,35 +54,32 @@ class ButtomListView extends StatelessWidget {
   }
 }
 
-Widget forecastCard(AsyncSnapshot snapshot, int index) {
-  var forecastList = snapshot.data.list;
+Widget forecastCard(AsyncSnapshot<WeatherForecast> snapshot, int index) {
+  var forecastList = snapshot.data!.list;
   var dayOfWeek = '';
-  DateTime date = DateTime.fromMillisecondsSinceEpoch(forecastList[index].dt * 1000);
+  DateTime date =
+      DateTime.fromMillisecondsSinceEpoch(forecastList![index].dt! * 1000);
   var fullDate = Util.getFormattedDate(date);
   dayOfWeek = fullDate.split(',')[0];
-  var tempMin = forecastList.temp.temp_min.toStringAsFixed(0);
-  if (snapshot.data != null) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          '$tempMin °C',
-          style: const TextStyle(color: Colors.white, fontSize: 20),
+  var tempMin = forecastList[index].temp!.temp!.toStringAsFixed(0);
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Text(
+        '$tempMin °C',
+        style: const TextStyle(color: Colors.white, fontSize: 20),
+      ),
+      Image(
+        image: AssetImage(
+          Util.findIcon("${forecastList[index].weather![0].main}", false),
         ),
-        Image(
-          image: AssetImage(
-            Util.findIcon("${forecastList[index].weather![0].main}", false),
-          ),
-          width: 55,
-          height: 55,
-        ),
-        Text(
-          dayOfWeek,
-          style: const TextStyle(color: Colors.white, fontSize: 20),
-        )
-      ],
-    );
-  } else {
-    return Container();
-  }
+        width: 50,
+        height: 50,
+      ),
+      Text(
+        dayOfWeek,
+        style: const TextStyle(color: Colors.white, fontSize: 20),
+      )
+    ],
+  );
 }

@@ -13,9 +13,10 @@ class CurrentWeather extends StatelessWidget {
     var data = snapshot.data;
     var forecastList = data!.list;
     var temp = forecastList![0].temp!.temp!.toStringAsFixed(0);
-    var formattedDate = DateTime.fromMillisecondsSinceEpoch(forecastList[0].dt! * 1000);
+    var formattedDate =
+        DateTime.fromMillisecondsSinceEpoch(forecastList[0].dt! * 1000);
     return Container(
-      height: MediaQuery.of(context).size.height - 230,
+      height: MediaQuery.of(context).size.height - 320,
       margin: const EdgeInsets.all(2),
       padding: const EdgeInsets.only(top: 50, left: 30, right: 30),
       decoration: BoxDecoration(
@@ -23,7 +24,6 @@ class CurrentWeather extends StatelessWidget {
         borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(60), bottomRight: Radius.circular(60)),
       ),
-      // spreadRadius: 5,
       child: Column(
         children: [
           Text(
@@ -32,13 +32,12 @@ class CurrentWeather extends StatelessWidget {
                 height: 0.1, fontWeight: FontWeight.bold, fontSize: 25),
           ),
           SizedBox(
-            height: 430,
+            height: 450,
             child: Stack(
               children: [
                 Image(
-                  image: AssetImage(
-                    Util.findIcon('${forecastList[0].weather![0].main}', true)
-                  ),
+                  image: AssetImage(Util.findIcon(
+                      '${forecastList[0].weather![0].main}', true)),
                   fit: BoxFit.fill,
                 ),
                 Positioned(
@@ -49,9 +48,9 @@ class CurrentWeather extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            '$temp °C',
+                            '$temp°C',
                             style: const TextStyle(
-                                height: 0.1,
+                                height: 1.0,
                                 fontSize: 80,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -75,7 +74,9 @@ class CurrentWeather extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          ExtraWeather(snapshot: snapshot,),
+          ExtraWeather(
+            snapshot: snapshot,
+          ),
         ],
       ),
     );

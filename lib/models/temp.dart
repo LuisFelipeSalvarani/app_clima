@@ -1,17 +1,18 @@
 class Temp {
-  double? temp;
-  double? feels_like;
-  double? temp_min;
-  double? temp_max;
+  dynamic temp;
+  dynamic feels_like;
+  dynamic temp_min;
+  dynamic temp_max;
   int? pressure;
   int? humidity;
 
-  Temp({this.temp,
-    this.feels_like,
-    this.temp_min,
-    this.temp_max,
-    this.pressure,
-    this.humidity});
+  Temp(
+      {this.temp,
+      this.feels_like,
+      this.temp_min,
+      this.temp_max,
+      this.pressure,
+      this.humidity});
 
   Temp.fromJson(Map<String, dynamic> json) {
     temp = json['temp'];

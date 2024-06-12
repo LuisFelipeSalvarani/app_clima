@@ -19,7 +19,7 @@ class WeatherApi {
         'appid': Constants.WEATHER_APP_ID,
         'units': 'metric',
         'q': cityName,
-        'lang': 'pt_br'
+        'lang': 'pt_br',
       };
 
       parameters = queryParameters;
@@ -29,17 +29,14 @@ class WeatherApi {
         'units': 'metric',
         'lat': location.latitude.toString(),
         'lon': location.longitude.toString(),
-        'lang': 'pt_br'
+        'lang': 'pt_br',
       };
 
       parameters = queryParameters;
     }
 
-    var uri = Uri.https(
-      Constants.WEATHER_BASE_URL_DOMAIN,
-      Constants.WEATHER_FORECAST_PATH,
-      parameters,
-    );
+    var uri = Uri.https(Constants.WEATHER_BASE_URL_DOMAIN,
+        Constants.WEATHER_FORECAST_PATH_FORECAST, parameters);
 
     log('requisição: ${uri.toString()}');
 

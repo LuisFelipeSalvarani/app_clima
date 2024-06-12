@@ -41,7 +41,7 @@ class _SearchPageState extends State<SearchPage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
+                    backgroundColor: WidgetStateProperty.all(
                       const Color(0xff00A1FF),
                     ),
                   ),

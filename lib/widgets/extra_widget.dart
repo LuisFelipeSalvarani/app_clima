@@ -26,8 +26,7 @@ class ExtraWeather extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Text(
-                wind.toString() + " Km/h",
+            Text("$wind Km/h",
                 style:
                     const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
             const SizedBox(
@@ -49,7 +48,7 @@ class ExtraWeather extends StatelessWidget {
               height: 10,
             ),
             Text(
-              humidity.toString() + ' %',
+              '$humidity %',
               style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
             ),
             const SizedBox(
@@ -71,7 +70,7 @@ class ExtraWeather extends StatelessWidget {
               height: 10,
             ),
             Text(
-              rain.toString() + ' %',
+              '$rain %',
               style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
             ),
             const SizedBox(
