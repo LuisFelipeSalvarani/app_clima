@@ -1,22 +1,21 @@
-import 'package:app_clima/models/weather_forecast_daily.dart';
+import 'package:app_clima/models/weather_forecast_all.dart';
 import 'package:app_clima/widgets/extra_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app_clima/utilities/forecast_util.dart';
 
 class CurrentWeather extends StatelessWidget {
-  final AsyncSnapshot<WeatherForecast> snapshot;
+  final AsyncSnapshot<WeatherForecastAll> snapshot;
 
   const CurrentWeather({super.key, required this.snapshot});
 
   @override
   Widget build(BuildContext context) {
-    var data = snapshot.data;
-    var forecastList = data!.list;
-    var temp = forecastList![0].temp!.temp!.toStringAsFixed(0);
+    var data = snapshot.data!.weather_current;
+    var temp = data!.temp!.temp.toStringAsFixed(0);
     var formattedDate =
-        DateTime.fromMillisecondsSinceEpoch(forecastList[0].dt! * 1000);
+        DateTime.fromMillisecondsSinceEpoch(data.dt! * 1000);
     return Container(
-      height: MediaQuery.of(context).size.height - 320,
+      height: MediaQuery.of(context).size.height - 270,
       margin: const EdgeInsets.all(2),
       padding: const EdgeInsets.only(top: 50, left: 30, right: 30),
       decoration: BoxDecoration(
@@ -27,17 +26,17 @@ class CurrentWeather extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            data.city!.name!,
+            data.name!,
             style: const TextStyle(
                 height: 0.1, fontWeight: FontWeight.bold, fontSize: 25),
           ),
           SizedBox(
-            height: 450,
+            height: 380,
             child: Stack(
               children: [
                 Image(
                   image: AssetImage(Util.findIcon(
-                      '${forecastList[0].weather![0].main}', true)),
+                      '${data.weather![0].main}', true)),
                   fit: BoxFit.fill,
                 ),
                 Positioned(
@@ -50,12 +49,12 @@ class CurrentWeather extends StatelessWidget {
                           Text(
                             '$temp°C',
                             style: const TextStyle(
-                                height: 1.0,
+                                height: 0.5,
                                 fontSize: 80,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            '${forecastList[0].weather![0].description}',
+                            '${data.weather![0].description}',
                             style: const TextStyle(fontSize: 25),
                           ),
                           Text(

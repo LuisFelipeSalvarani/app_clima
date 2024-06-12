@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:app_clima/models/weather_forecast_all.dart';
+import 'package:app_clima/models/weather_forecast_current.dart';
 import 'package:app_clima/models/weather_forecast_daily.dart';
 import 'package:app_clima/utilities/constants.dart';
 import 'package:app_clima/utilities/location.dart';
 import 'package:http/http.dart' as http;
 
 class WeatherApi {
-  Future<WeatherForecast> fetchWeatherForecast(
+  Future<WeatherForecastAll> fetchWeatherForecast(
       {String? cityName, bool? isCity}) async {
     Location location = Location();
     await location.getCurrentLocation();
@@ -35,17 +37,31 @@ class WeatherApi {
       parameters = queryParameters;
     }
 
-    var uri = Uri.https(Constants.WEATHER_BASE_URL_DOMAIN,
+    var forecastUri = Uri.https(Constants.WEATHER_BASE_URL_DOMAIN,
         Constants.WEATHER_FORECAST_PATH_FORECAST, parameters);
+    var currentUri = Uri.https(Constants.WEATHER_BASE_URL_DOMAIN,
+        Constants.WEATHER_FORECAST_PATH_CURRENT, parameters);
 
-    log('requisição: ${uri.toString()}');
+    log('Requisição Previsão: ${forecastUri.toString()}');
+    log('Requisição Atual: ${currentUri.toString()}');
 
-    var response = await http.get(uri);
+    var response = await Future.wait([http.get(forecastUri), http.get(currentUri)]);
 
-    print('resposta: ${response.body}');
+    var forecastResponse = response[0];
+    var currentResponse = response[1];
 
-    if (response.statusCode == 200) {
-      return WeatherForecast.fromJson(json.decode(response.body));
+    print('Resposta Previsão: ${forecastResponse.body}');
+    print('Resposta Atual: ${currentResponse.body}');
+
+    if (forecastResponse.statusCode == 200 && currentResponse.statusCode == 200) {
+      var forecastData = json.decode(forecastResponse.body);
+      var currentData = json.decode(currentResponse.body);
+      var weatherForecastResponse = {
+        'weather_forecast': forecastData,
+        'weather_current': currentData,
+      };
+
+      return WeatherForecastAll.fromJson(weatherForecastResponse);
     } else {
       throw Future.error('Erro na resposta');
     }

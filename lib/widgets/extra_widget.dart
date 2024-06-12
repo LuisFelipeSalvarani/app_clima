@@ -1,15 +1,15 @@
-import 'package:app_clima/models/weather_forecast_daily.dart';
+import 'package:app_clima/models/weather_forecast_all.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ExtraWeather extends StatelessWidget {
-  final AsyncSnapshot<WeatherForecast> snapshot;
+  final AsyncSnapshot<WeatherForecastAll> snapshot;
 
   const ExtraWeather({super.key, required this.snapshot});
 
   @override
   Widget build(BuildContext context) {
-    var forecastList = snapshot.data!.list;
+    var forecastList = snapshot.data!.weather_forecast!.list;
     var humidity = forecastList![0].temp!.humidity;
     var wind = forecastList[0].wind!.speed;
     var rain = forecastList[0].clouds!.clouds;

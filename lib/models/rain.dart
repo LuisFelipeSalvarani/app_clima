@@ -4,7 +4,11 @@ class Rain {
   Rain({this.rain});
 
   Rain.fromJson(Map<String, dynamic> json) {
-    rain = json['3h'];
+    if(json['3h'] != null) {
+      rain = json['3h'];
+    } else {
+      rain = json['1h'];
+    }
   }
 
   Map<String, dynamic> toJson() {

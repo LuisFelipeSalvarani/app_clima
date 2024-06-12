@@ -1,5 +1,5 @@
 import 'package:app_clima/api/weather_api.dart';
-import 'package:app_clima/models/weather_forecast_daily.dart';
+import 'package:app_clima/models/weather_forecast_all.dart';
 import 'package:app_clima/pages/search_page.dart';
 import 'package:app_clima/widgets/buttom_list.dart';
 import 'package:app_clima/widgets/current_weather.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  final WeatherForecast? locationWeather;
+  final WeatherForecastAll? locationWeather;
 
   const HomePage({super.key, required this.locationWeather});
 
@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Future<WeatherForecast> weatherObj;
+  late Future<WeatherForecastAll> weatherObj;
   late String _cityName;
 
   @override
@@ -56,6 +56,7 @@ class _HomePageState extends State<HomePage> {
                   CupertinoIcons.map_fill,
                   color: Colors.white,
                 ),
+                SizedBox(width: 8,),
                 Text(
                   'openweathermap.org',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
@@ -87,7 +88,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: [
-          FutureBuilder<WeatherForecast>(
+          FutureBuilder<WeatherForecastAll>(
               future: weatherObj,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {

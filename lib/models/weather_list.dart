@@ -12,6 +12,7 @@ class WeatherList {
   Wind? wind;
   int? visibility;
   Rain? rain;
+  String? dt_txt;
 
   WeatherList(
       {this.dt,
@@ -20,7 +21,8 @@ class WeatherList {
       this.clouds,
       this.wind,
       this.visibility,
-      this.rain});
+      this.rain,
+      this.dt_txt});
 
   WeatherList.fromJson(Map<String, dynamic> json) {
     dt = json['dt'];
@@ -35,6 +37,7 @@ class WeatherList {
     wind = json['wind'] != null ? Wind.fromJson(json['wind']) : null;
     visibility = json['visibility'];
     rain = json['rain'] != null ? Rain.fromJson(json['rain']) : null;
+    dt_txt = json['dt_txt'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,6 +59,7 @@ class WeatherList {
     if (rain != null) {
       data['rain'] = rain!.toJson();
     }
+    data['dt_txt'] = dt_txt;
     return data;
   }
 }
